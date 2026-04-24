@@ -1,7 +1,8 @@
 package com.felcross.produtos.domain.entity;
 
-import jakarta.persistence.*;
+
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -16,8 +17,8 @@ public class Produto {
     private String descricao;
     private BigDecimal preco;
     private Integer estoque;
+
+    @org.springframework.data.annotation.CreatedDate // Anotação correta para Mongo
     private LocalDateTime createdAt;
 
-    @PrePersist
-    void prePersist() { this.createdAt = LocalDateTime.now(); }
 }

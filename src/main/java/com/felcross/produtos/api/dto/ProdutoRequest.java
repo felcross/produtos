@@ -1,10 +1,15 @@
 package com.felcross.produtos.api.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.*;
+
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ProdutoRequest {
     @NotBlank private String nome;
     private String descricao;

@@ -4,6 +4,8 @@ import com.felcross.produtos.api.dto.*;
 import com.felcross.produtos.business.mapper.ProdutoMapper;
 import com.felcross.produtos.domain.entity.Produto;
 import com.felcross.produtos.domain.repository.ProdutoRepository;
+import com.felcross.produtos.infrastructure.exception.BusinessException;
+import com.felcross.produtos.infrastructure.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -38,8 +40,7 @@ public class ProdutoService {
     public void atualizarEstoque(String id, int quantidade) {
         Produto p = findOrThrow(id);
         if (p.getEstoque() < quantidade)
-            throw new IllegalArgumentException("Estoque insuficiente");
-        p.setEstoque(p.getEstoque() - quantidade);
+            throw new BusinessException("Estoque insuficiente para o produto: " + p.getNome());        p.setEstoque(p.getEstoque() - quantidade);
         repository.save(p);
     }
 
@@ -47,6 +48,5 @@ public class ProdutoService {
 
     private Produto findOrThrow(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Produto nao encontrado: " + id));
-    }
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado com ID: " + id));    }
 }
